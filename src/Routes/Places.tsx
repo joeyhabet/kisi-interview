@@ -13,11 +13,11 @@ const Places = () => {
 
   useEffect(() => {
     dispatch(PlacesAsyncActions.FetchList.Actions.REQUEST())
-  }, [])
+  }, [dispatch])
 
   return (
     <AppContainer>
-      {list.map((place: any) => <PlaceCard place={place}/>)}
+      {list.map((place: any) => <PlaceCard key={place.id} place={place}/>)}
     </AppContainer>
   )
 }

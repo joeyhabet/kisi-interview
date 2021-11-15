@@ -14,7 +14,7 @@ const persistConfig = {
     whitelist: []
 }
 
-export default () => {
+const configStore = () => {
     const middleware = []
 
     const kisiClient = new Kisi()
@@ -40,3 +40,5 @@ export default () => {
 
     return { store, persistor }
 }
+
+export default configStore

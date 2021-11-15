@@ -1,7 +1,6 @@
 import { put, delay, select, getContext } from 'redux-saga/effects'
 import { AppReady } from 'Store/Actions/App'
 import { ResetCache } from 'Store/Actions/Auth'
-import { REHYDRATE } from 'redux-persist/lib/constants'
 
 export function * startup () {
   // @ts-ignore

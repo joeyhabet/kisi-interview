@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dialog, DialogTitle, DialogContent, Autocomplete, TextField, DialogActions, Button, DialogContentText } from '@mui/material'
 import { DoorsAsyncActions } from 'Store/Actions/Doors'
@@ -15,22 +15,27 @@ const SelectDoorDialog: React.FC<{
   const { placeId, groupId } = useParams()
   const dispatch = useDispatch()
   const [keyword, setKeyword] = useState('')
-  const [selectedDoor, setDoor] = useState<any>(undefined)
+  const [selectedDoor, setDoor] = useState<any>(null)
 
   const placeLocks = useSelector(getPlaceLocks)
   const options = placeLocks ? placeLocks.data : []
 
   const { isLoaded: isAddedLock, isLoading: isAddingLock } = useSelector(DoorsAsyncActions.CreateGroupLock.StatusSelector())
 
+  const closeDialog = useCallback(() => {
+    setDoor(null)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     if (isAddedLock) {
       closeDialog()
     }
-  }, [isAddedLock])
+  }, [isAddedLock, closeDialog])
 
   useEffect(() => {
     dispatch(DoorsAsyncActions.FetchPlaceLocks.Actions.REQUEST(placeId, keyword))
-  }, [keyword])
+  }, [keyword, dispatch, placeId])
 
   const onInputChange = (event: any, newInputValue: string) => {
     setKeyword(newInputValue)
@@ -46,11 +51,6 @@ const SelectDoorDialog: React.FC<{
     if (selectedDoor) {
       dispatch(DoorsAsyncActions.CreateGroupLock.Actions.REQUEST(groupId, selectedDoor.id))
     }
-  }
-
-  const closeDialog = () => {
-    setDoor(undefined)
-    onClose()
   }
 
   return (

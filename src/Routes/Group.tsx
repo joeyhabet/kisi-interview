@@ -29,15 +29,17 @@ const Group = () => {
     if (isDeleted) {
       dispatch(DoorsAsyncActions.FetchList.Actions.REQUEST(groupId))
     }
-  }, [isDeleted])
+  }, [isDeleted, groupId, dispatch])
+
+  useEffect(() => {
+    if (isAdded) {
+      dispatch(DoorsAsyncActions.FetchList.Actions.REQUEST(groupId))
+    }
+  }, [isAdded, groupId, dispatch])
 
   useEffect(() => {
     dispatch(DoorsAsyncActions.FetchList.Actions.REQUEST(groupId))
-  }, [isAdded])
-
-  useEffect(() => {
-    dispatch(DoorsAsyncActions.FetchList.Actions.REQUEST(groupId))
-  }, [])
+  }, [dispatch, groupId])
 
   const handleNextPage = () => {
     dispatch(DoorsAsyncActions.FetchList.Actions.REQUEST(groupId, currentPage * limit, limit))
@@ -62,7 +64,7 @@ const Group = () => {
       <Box sx={{ maxWidth: 512, maxHeight: '80vh', my: 1, mx: 'auto', boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)', borderRadius: 4 }}>
         <Grid container justifyContent='flex-end' sx={{ p: 2 }}><Button variant="contained" onClick={handleAddLock}>Add</Button></Grid>
         <List dense>
-          {data.map((door: any) => (<DoorListItem door={door}/>))}
+          {data.map((door: any) => (<DoorListItem key={door.id} door={door}/>))}
         </List>
         <Divider/>
         <Grid container sx={{ height: 80, p: 2 }} justifyContent="space-between" alignItems="center">

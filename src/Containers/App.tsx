@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, Container, Typography } from '@mui/material'
+import { Box, AppBar, Toolbar, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from 'Store/Selectors/Auth'
 

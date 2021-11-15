@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import AppContainer from "Containers/App"
 import { useDispatch, useSelector } from 'react-redux'
 import { GroupsAsyncActions } from 'Store/Actions/Groups'
@@ -9,7 +9,6 @@ import GroupListItem from 'Components/GroupListItem'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { id: placeId } = useParams()
   const groups = useSelector(getGroups)
   
@@ -23,7 +22,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(GroupsAsyncActions.FetchList.Actions.REQUEST(placeId))
-  }, [])
+  }, [dispatch, placeId])
 
   const handleNextPage = () => {
     dispatch(GroupsAsyncActions.FetchList.Actions.REQUEST(placeId, currentPage * limit, limit))
@@ -37,7 +36,7 @@ const Dashboard = () => {
     <AppContainer>
       <Box sx={{ maxWidth: 512, maxHeight: '80vh', my: 1, mx: 'auto', boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)', borderRadius: 4 }}>
         <List dense>
-          {data.map((group: any) => <GroupListItem group={group}/>)}
+          {data.map((group: any) => <GroupListItem key={group.id} group={group}/>)}
         </List>
         <Divider/>
         <Grid container sx={{ height: 80, p: 2 }} justifyContent="space-between" alignItems="center">
